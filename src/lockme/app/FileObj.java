@@ -1,5 +1,5 @@
 /*
- * @title CustomerManagement.java
+ * @title FileObj.java
  * @author Yussel Rosario
  * @date 4/14/2020
  * @purpose: Class definition for File. This class will create and hold information about a file created on the hard drive. 
@@ -9,14 +9,16 @@ package lockme.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class FileObj {
+public class FileObj implements Serializable {
 	
 	private String name;
 	private String path;
 	private int custId;
 	private File fh;
 	private File dirFh;
+	private static final long serialVersionUID = 12341234214312L;
 	
 
 	public FileObj(String filename, int custId){
@@ -62,7 +64,9 @@ public class FileObj {
 				return -1;
 			}
 			
-		}catch(Exception e) {
+		}catch(IOException e) {
+			e.printStackTrace();
+			System.out.println(e);
 			return -1;
 		}
 	}
