@@ -13,8 +13,8 @@ import java.util.HashMap;
 
 public class CustomerManagement {
 	
-	static int custId;
-	HashMap<Integer, Customer> customers;
+	private static int custId;
+	private HashMap<Integer, Customer> customers;
 	
 	public CustomerManagement() {
 		custId = 0;
@@ -32,6 +32,5 @@ public class CustomerManagement {
 		return customers.get(custId);
 	}
 	
-
 
 }
