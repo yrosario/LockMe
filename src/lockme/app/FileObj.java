@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class FileObj implements Serializable {
+public class FileObj implements Serializable, Comparable<FileObj> {
 	
 	private String name;
 	private String path;
@@ -97,5 +97,11 @@ public class FileObj implements Serializable {
 	public int getOwner() {
 		return custId;
 	}
+	
+	//Implementing extract method compareTo
+	public int compareTo(FileObj other) {
+		return name.compareTo(other.getName());
+	}
+	
 }
 

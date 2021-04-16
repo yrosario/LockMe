@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+
 public class FileManagement implements Serializable{
 	
 	//HashMap holds list of files for Customers
@@ -26,13 +27,14 @@ public class FileManagement implements Serializable{
 	private static final long serialVersionUID = 1234123421431234L;
 	
 	//Initialize files HashMap
-	public FileManagement() throws ClassNotFoundException, IOException {
-		files = new HashMap<Integer, ArrayDeque<FileObj>>();
+	public FileManagement(){
 		
+		files = new HashMap<Integer, ArrayDeque<FileObj>>();
+
 		File fileObjSer = new File(objSerPath + "/"+serName);
-	
+
 		if(fileObjSer.exists())
-			desialize();
+		   deserialize();
 	}
 	
 	//Creates a file to the users folder
@@ -64,7 +66,7 @@ public class FileManagement implements Serializable{
     }
     
     //Deletes file from specified user
-    public int delete(String filename, int custId) throws IOException {
+    public int delete(String filename, int custId){
     	
     	FileObj temp = null;
     	if(findFile(filename, custId)) {
@@ -93,38 +95,52 @@ public class FileManagement implements Serializable{
     	return false;
     }
 	
-	private void serialize() throws IOException {
-		File dir = new File(objSerPath);
+    //Serializes files HashMap object to the hard drive
+	private void serialize(){
 		
-		//create ser directory if it doesn't exist
-		if(!dir.exists())
-			if(dir.mkdir())
-				System.out.println("directory create successfully");
-			else
-				System.out.println("unable to create directory");
+		try {
+		    File dir = new File(objSerPath);
 		
-		//creates ser file and writes ser file
-		FileOutputStream fileOut = new FileOutputStream(objSerPath + "/" + serName);
-		ObjectOutputStream out = new ObjectOutputStream(fileOut);
-		out.writeObject(files);
-		out.close();
-		fileOut.close();
+		    //create ser directory if it doesn't exist
+		    if(!dir.exists())
+			   if(dir.mkdir())
+			      System.out.println("directory create successfully");
+			   else
+				  System.out.println("unable to create directory");
+		
+		    //creates ser file and writes ser file
+		    FileOutputStream fileOut = new FileOutputStream(objSerPath + "/" + serName);
+		    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+		    out.writeObject(files);
+		    out.close();
+		    fileOut.close();
+		
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
-	private void desialize() throws IOException, ClassNotFoundException{
+	//Read the files HashMap object stored on the hard drive
+	@SuppressWarnings("unchecked")
+	private void deserialize(){
 		
+		try {
+		   FileInputStream fileIn = new FileInputStream(objSerPath + "/" + serName);
 		
-		FileInputStream fileIn = new FileInputStream(objSerPath + "/" + serName);
-		
-		ObjectInputStream in = new ObjectInputStream(fileIn);
-		files =  (HashMap<Integer, ArrayDeque<FileObj>>) in.readObject();
-		in.close();
-		in.close();
+		   ObjectInputStream in = new ObjectInputStream(fileIn);
+		   files =  (HashMap<Integer, ArrayDeque<FileObj>>) in.readObject();
+		   in.close();
+		   in.close();
+		   
+		}catch(IOException e) {
+			e.printStackTrace();
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch(ClassCastException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
-	
-	
-
 }

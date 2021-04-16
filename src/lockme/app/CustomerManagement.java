@@ -28,8 +28,8 @@ public class CustomerManagement {
 		
 	}
 	
-	public Customer getCustomer(int custId) {
-		return customers.get(custId);
+	public String getCustomer(int custId) {
+		return customers.get(custId).getName();
 	}
 	
 
