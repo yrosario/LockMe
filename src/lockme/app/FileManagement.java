@@ -8,7 +8,8 @@
 package lockme.app;
 
 import java.util.HashMap;
-import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.io.Serializable;
 import java.io.File;
 import java.io.ObjectOutputStream;
@@ -21,7 +22,7 @@ import java.io.IOException;
 public class FileManagement implements Serializable{
 	
 	//HashMap holds list of files for Customers
-	HashMap<Integer, ArrayDeque<FileObj>> files;
+	HashMap<Integer, ArrayList<FileObj>> files;
 	private String  objSerPath = "ser";
 	private String serName = "hash.ser";
 	private static final long serialVersionUID = 1234123421431234L;
@@ -29,7 +30,7 @@ public class FileManagement implements Serializable{
 	//Initialize files HashMap
 	public FileManagement(){
 		
-		files = new HashMap<Integer, ArrayDeque<FileObj>>();
+		files = new HashMap<Integer, ArrayList<FileObj>>();
 
 		File fileObjSer = new File(objSerPath + "/"+serName);
 
@@ -45,7 +46,7 @@ public class FileManagement implements Serializable{
 			if(files.containsKey(custId))
 				files.get(custId).add(newFile);
 			else {
-				files.put(custId, new ArrayDeque<FileObj>());
+				files.put(custId, new ArrayList<FileObj>());
 				files.get(custId).add(newFile);
 			}
 			
@@ -58,6 +59,9 @@ public class FileManagement implements Serializable{
 	
 	//Prints list of files from specified customer
     public void getFiles(int custId) {
+    	
+    	//sort files in descending ordered 
+    	Collections.sort(files.get(custId));
     	
     	if(files.containsKey(custId)) {
     		for(FileObj obj : files.get(custId))
@@ -129,7 +133,7 @@ public class FileManagement implements Serializable{
 		   FileInputStream fileIn = new FileInputStream(objSerPath + "/" + serName);
 		
 		   ObjectInputStream in = new ObjectInputStream(fileIn);
-		   files =  (HashMap<Integer, ArrayDeque<FileObj>>) in.readObject();
+		   files =  (HashMap<Integer, ArrayList<FileObj>>) in.readObject();
 		   in.close();
 		   in.close();
 		   
