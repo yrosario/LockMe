@@ -23,7 +23,7 @@ public class FileManagement implements Serializable{
 	
 	//HashMap holds list of files for Customers
 	HashMap<Integer, ArrayList<FileObj>> files;
-	private String  objSerPath = "ser";
+	private String  objSerPath = "filestore/";
 	private String serName = "hash.ser";
 	private static final long serialVersionUID = 1234123421431234L;
 	
@@ -39,7 +39,8 @@ public class FileManagement implements Serializable{
 	}
 	
 	//Creates a file to the users folder
-	public int addFile(String filename, int custId) throws IOException {
+	public int addFile(String filename, int custId){
+		
 		FileObj newFile = new FileObj(filename, custId);
 		
 		if(newFile.create() == 1) {
@@ -60,7 +61,11 @@ public class FileManagement implements Serializable{
 	//Prints list of files from specified customer
     public void getFiles(int custId) {
     	
-    	//sort files in descending ordered 
+    	//if user has no files return 
+    	if(!files.containsKey(custId))
+    		return;
+    	
+    	//sort files in descending ordered
     	Collections.sort(files.get(custId));
     	
     	if(files.containsKey(custId)) {
@@ -92,9 +97,11 @@ public class FileManagement implements Serializable{
     //Finds a file and returns true if file is found
     public boolean findFile(String filename, int custId) {
     	if(files.containsKey(custId))
-    		for(FileObj obj : files.get(custId))
+    		for(FileObj obj : files.get(custId)) {
     			if(filename.equals(obj.getName()))
     				return true;
+    		}
+    	
     	
     	return false;
     }

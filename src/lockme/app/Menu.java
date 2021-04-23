@@ -8,23 +8,23 @@
  */
 package lockme.app;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
 	
 	//Displays command line menu to customer to performed file management operations and
 	//performed those operations.
-	public void display(FileManagement fileMng, CustomerManagement custMng, int custId) throws IOException {
+	public void display(FileManagement fileMng, CustomerManagement custMng, int custId) {
 		
 		Scanner scn = new Scanner(System.in);
 		String filename = "";
 		
+		System.out.println("Welcome to the LockMe Application. \nThis applications was created by Yussel Rosario");
 		System.out.println("\nUser:-> " + custMng.getCustomer(custId) + " <-is logged in\n");
 		
 		String message = "\nEnter 1 of the characters below"
 				+ "\n1. l - List all files \n2. a - Add file" 
-				+ "\n3. d - Delete file \n4. m - Display menu \n5. q - quit";
+				+ "\n3. d - Delete file \n4. f - Find file \n5. m - Display menu \n6. q - quit";
 		System.out.println(message);
 		while(true) {
 			
@@ -57,12 +57,22 @@ public class Menu {
 			    		System.out.println("File deletion failed");
 			    	break;
 			    	
+			    case 'f':
+			    	System.out.print("\nEnter file name to find: ");
+			    	filename = scn.next();
+			    	
+			    	if(fileMng.findFile(filename, custId))
+			    		System.out.println(filename + " was found!!");
+			    	else
+			    		System.out.println(filename + "was not found");
+			    	break;
+			    	
 			    case 'm':
 			    	System.out.println(message);
 			    	break;
 			    	
 			    case 'q':
-			    	System.out.println("\nClosing menu...");
+			    	System.out.println("\nGoodbye..." + custMng.getCustomer(custId));
 			    	scn.close();
 			    	return;
 			    	
@@ -74,7 +84,7 @@ public class Menu {
 		
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException {
+	public static void main(String[] args){
 		
 		
 		CustomerManagement custMng = new CustomerManagement();
