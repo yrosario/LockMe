@@ -98,7 +98,7 @@ public class FileManagement implements Serializable{
     public boolean findFile(String filename, int custId) {
     	if(files.containsKey(custId))
     		for(FileObj obj : files.get(custId)) {
-    			if(filename.equals(obj.getName()))
+    			if(filename.toLowerCase().equals(obj.getName()))
     				return true;
     		}
     	
